@@ -25,13 +25,13 @@ repositories {
 }
 
 dependencies {
-    compile "org.deeplearning4j:deeplearning4j-core:${dl4j_version}"
-    compile "org.nd4j:nd4j-native-platform:${dl4j_version}"
+    implementation "org.deeplearning4j:deeplearning4j-core:${dl4j_version}"
+    implementation "org.nd4j:nd4j-native-platform:${dl4j_version}"
     //compile "org.deeplearning4j:dl4j-spark_2.11:${spark_version}"
-     compile fileTree(dir: "lib", include: "*.jar")
+    implementation fileTree(dir: "lib", include: "*.jar")
    
-    compile fileTree(dir: "build/classes/java/main", include: "*.class")
-    compile fileTree(dir: "src/", include: "*.class")
+    implementation fileTree(dir: "build/classes/java/main", include: "*.class")
+    implementation fileTree(dir: "src/", include: "*.class")
   
 }
 
@@ -82,7 +82,7 @@ def extensions = [ 'class', 'jsci', 'gif', 'm', 'htm', 'html', 'jpg', 'plots-jsc
 
 
 task fatJar(type: Jar) {
-
+ duplicatesStrategy = DuplicatesStrategy.INCLUDE
     baseName="jShellLab"
     includeEmptyDirs = false
     mainClassName="jshellLabExec.jshellLab.jshellLab"
@@ -98,7 +98,7 @@ task fatJar(type: Jar) {
   classifier = 'all'
     
   
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } 
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } 
     }
  {
       //  exclude "META-INF/*.SF"
